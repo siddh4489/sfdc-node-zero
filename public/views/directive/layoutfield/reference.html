@@ -1,0 +1,21 @@
+<div ng-if="field.rendered" ng-class="{'ng-invalid-val' : (isFieldRequired(field) && (!field.value || field.value === undefined || field.value === ''))}">
+    <div class="input-group" ng-if="!field.readonly && (field.disabled ==undefined || field.disabled==false)">
+        <input  type="hidden" 
+                ng-model="field.value">
+        <input  type="text" 
+                id="{{ field.SObjectField.name + index}}" 
+                class="form-control" 
+                ng-model="field.labelValue" readonly>
+        <div class="input-group-btn">
+            <button type="button" class="btn btn-default" ng-click="openLookup()">
+                <i class="fa fa-search"></i>
+            </button>
+        </div>
+    </div>
+    <div class="input-group" ng-if="field.disabled==true">
+        <input  type="hidden" 
+                ng-model="field.value">
+        <span ng-bind="field.labelValue"></span>
+    </div>
+    <span ng-if="field.readonly && (field.disabled ==undefined || field.disabled==false)" ng-bind="field.labelValue "></span>
+</div>

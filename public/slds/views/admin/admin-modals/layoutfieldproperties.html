@@ -1,0 +1,111 @@
+<div role="dialog" tabindex="-1" aria-labelledby="fieldPropertiesModalLabel" data-backdrop="static" class="slds-modal">
+    <div class="slds-modal__container">
+        <div class="slds-modal__header">
+            <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" ng-click="close()">
+                <svg class="slds-button__icon slds-button__icon--large" aria-hidden="true">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/slds221/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                </svg>
+                <span class="slds-assistive-text">Close</span>
+            </button>
+            <h2 id="fieldPropertiesModalLabel" class="slds-text-heading--medium" translate>{{ title }}</h2>
+        </div>
+        <div class="slds-modal__content slds-p-around--medium">
+            <div class="slds-form--horizontal" >
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="fieldLabel">Label</label>
+                    <div class="slds-form-element__control">
+                        <input type="text" id="fieldLabel" class="slds-input" placeholder="{{field.SObjectField.label}}" ng-model="field.label">
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="fieldRequired">Required ?</label>
+                    <div class="slds-form-element__control">
+                        <div class="" style="float: left;">
+                            <slds-switch id="fieldRequired" switch-change="onChangeRequired()" ng-model="field.required" on-text="Yes" off-text="No" switch-readonly="layout.type === 'Details' || section.readonly"/>&nbsp;
+                        </div>
+                        <div class="" style="float: left;">
+                            <button ng-if="field.required === true" id="requiredCriteria" ng-click="openFieldRequiredCriteriaModal(field,$index)" class="slds-button slds-button--icon-border-filled slds-button--icon-x-small">
+                                <svg class="slds-button__icon" aria-hidden="true">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/slds221/assets/icons/utility-sprite/svg/symbols.svg#magicwand"></use>
+                                </svg>
+                                <span class="slds-assistive-text">Required Criteria</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="fieldReadonly">Readonly ?</label>
+                    <div class="slds-form-element__control">
+                        <slds-switch id="fieldReadonly" switch-change="onChangeReadonly()" ng-model="field.readonly" on-text="Yes" off-text="No" switch-readonly="layout.type === 'Details' || section.readonly"/>
+                    </div>
+                </div>
+                <div class="slds-form-element" ng-if="(field.SObjectField.type === 'boolean' || field.SObjectField.type === 'picklist' || field.SObjectField.type === 'multipicklist') && forMobile === false">
+                    <label class="slds-form-element__label" for="fieldDefaultValue">Default Value</label>
+                    <div class="slds-form-element__control">
+                        <div ng-if="field.SObjectField.type === 'boolean'">
+                            <slds-switch id="fieldReadonly" ng-model="field.defaultValue" on-text="True" off-text="False"  />
+                        </div>
+                        <select class="slds-select" ng-model="field.defaultValue" ng-options="pValue.value as pValue.label for pValue in field.SObjectField.picklistValues" ng-if="field.SObjectField.type === 'picklist'">
+                            <option value="">-- None --</option>
+                        </select>
+                        <select class="slds-select slds-m-bottom--xx-small" multiple="multiple" ng-model="field.defaultValue" ng-options="pValue.value as pValue.label for pValue in field.SObjectField.picklistValues" ng-if="field.SObjectField.type === 'multipicklist'"></select>
+                        <span ng-if="field.SObjectField.type === 'multipicklist'" class="slds-badge">{{ (field.defaultValue) ? field.defaultValue.length : 0 }} items selected.</span>
+                    </div>
+                </div>
+                <div class="slds-form-element" ng-if="field.SObjectField.type === 'reference'  && forMobile === false">
+                    <label class="slds-form-element__label">Reference</label>
+                    <div class="slds-form-element__control">
+                        <div style="padding-top: 3px;" reference-field-selector field="field" ref-sobjects="refSObjects"></div>
+                    </div>
+                </div>
+                <div class="slds-form-element" data-select="single" ng-if="field.SObjectField.type === 'reference'  && forMobile === false">
+                    <label class="slds-form-element__label" for="fieldLookup">Lookup</label>
+                    <div class="slds-form-element__control slds-grid slds-box--border slds-lookup-field">
+                        <input type="hidden" ng-model="field.lookup.value">
+                        <div class="slds-input-has-icon slds-grow">
+                            <input readonly type="text" class="slds-lookup__search-input slds-input--bare" placeholder="Default lookup" ng-model="field.lookup.labelValue" />
+                        </div>
+                        <div class="slds-align-middle slds-m-left--xx-small slds-m-right--xx-small slds-shrink-none">
+                            <button id="fieldLookup" ng-click="openLookupsModal()" class="slds-button slds-button--icon-border slds-button--icon-small slds-util-button" aria-haspopup="true" title="Open lookup modal custom lookups">
+                                <svg class="slds-button__icon" aria-hidden="true">
+                                    <use xlink:href="/slds221/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                                </svg>
+                                <span class="slds-assistive-text">Open lookup modal custom lookups</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form-element" ng-if="eventFields.indexOf(field.SObjectField.type) !== -1  && forMobile === false">
+                    <label class="slds-form-element__label" for="event_onchange">OnChange</label>
+                    <div class="slds-form-element__control">
+                        <select id="event_onchange" class="slds-select" ng-model="field.event.onChange" ng-options="event as event.name for event in layout.events | filter: eventFilter | filter: {type: 'change'} track by event.name">
+                            <option value="">-- None --</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="slds-form-element" ng-if="field.SObjectField.type === 'reference' && forMobile === false && field.SObjectField.referenceTo.indexOf(userMasterObjName) !== -1">
+                    <label class="slds-form-element__label" for="fieldUserSelected">Current User Selected ?</label>
+                    <div class="slds-form-element__control">
+                        <slds-switch id="fieldUserSelected" switch-change="onChangeCurrentUserSelect()" ng-model="field.currentUserSelected" on-text="Yes" off-text="No" switch-readonly="layout.type === 'Details' || section.readonly"/>
+                    </div>
+                </div>
+                <div class="slds-form-element" ng-if="field.SObjectField.type === 'reference' && forMobile === false && field.SObjectField.referenceTo.indexOf(userMasterObjName) !== -1">
+                    <label class="slds-form-element__label" for="fieldExcludeUser">Exclude Current User ?</label>
+                    <div class="slds-form-element__control">
+                        <slds-switch id="fieldExcludeUser" switch-change="onChangeExcludeUser()" ng-model="field.excludeCurrentUser" on-text="Yes" off-text="No" switch-readonly="layout.type === 'Details' || section.readonly"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-modal__footer">
+            <button class="slds-button slds-button--neutral" ng-click="close()" translate>Cancel</button>
+            <button class="slds-button slds-button--brand" ng-click="save()">
+                <svg class="slds-button__icon slds-button__icon--left" aria-hidden="true">
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/slds221/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                </svg>
+                Save
+            </button>
+        </div>
+    </div>
+</div>
+<div class="slds-backdrop"></div>

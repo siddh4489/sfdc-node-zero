@@ -1,0 +1,57 @@
+<pf-notification-list></pf-notification-list>
+<div class="container" block-ui="loggingIn">
+    <div class="row">
+        <div class="col-sm-6 col-md-6 col-lg-6 login"></div>
+        <div class="col-sm-6 col-md-6 col-lg-6 login">
+            <div class="col-sm-2 col-md-2 col-lg-2 "></div>
+            <div class="col-sm-8 col-md-8 col-lg-8 form-signin">
+                <div class="col-sm-1 col-md-1  "></div>
+                <div class="col-sm-10 col-md-10 ">
+                    <form class="form-horizontal " role="form">
+                    <div class="form-group">
+                        <div class="col-sm-12 col-md-12" >
+                            <h2 style=" color: #404040; font-size: 25px;"><b> Welcome! </b></h2>
+                        </div>
+                    </div>
+                    <!--<div class="form-group"  style="margin-bottom:0px">
+                        <div class="col-sm-12 col-md-12" style=" color:GREY;"  >
+                            Logon to your Account. 
+                        </div>
+                    </div>-->
+                    <div class="form-group" style="margin-bottom:0px">
+                        <div class="col-sm-12 col-md-12" style=" color:#00B0F0; " >
+                            User Name: 
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <div class="col-sm-12 col-md-12"  >
+                            <input type="text" border='0' id="inputUsername" placeholder="" tabindex="1" ng-model="credentials.username">
+                        </div>
+                    </div>
+                    <div class="form-group" style="margin-bottom:0px">
+                        <div class="col-sm-12 col-md-12" style=" color:#00B0F0; " >
+                            Password:
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-12 col-md-12" >
+                            <input type="password"  id="inputPassword" placeholder="" tabindex="2" ng-model="credentials.password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-8  col-sm-6  col-md-6">
+                            <span class="help-block">  <a href="#" style=" color: #00B0F0;text-decoration: none;font-size: 14px" ng-click="onClickResetPassLink()" tabindex="6"> Forgot Password? </a></span>
+                        </div>
+                        <div class="col-xs-4 col-sm-6 col-md-6 submit">
+                            <button type="submit" class="btn  btn-lg " style="background-color: #005fb2 ;color:white; border-radius: 5px;"  tabindex="4" ng-click="login()" ng-disabled="loggingIn"> {{ (loggingIn) ? 'Logging In ...' : 'Login' }}</button>
+                        </div>
+                    </div>
+                </form>
+                </div>
+                <div class="col-sm-1 col-md-1  "></div>
+            
+            </div>
+            <div class="col-sm-2 col-md-2 col-lg-2 "></div>
+        </div>
+    </div>
+</div>

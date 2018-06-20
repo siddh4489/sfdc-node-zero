@@ -1,0 +1,99 @@
+<div class="col-md-12">
+    <div class="page-header page-header-bleed-right">
+        <div class="actions pull-right">
+            <a href="#" ng-click="refreshResults()" ng-disabled="'true'"><span class="pficon pficon-refresh"></span> Refresh Results</a> &nbsp;&nbsp;&nbsp;&nbsp;
+            <a href  ng-click="returnToList()"><span class="fa fa-chevron-circle-left"></span> Back to layouts</a>&nbsp;&nbsp;
+        </div>
+        <h1>{{ $root.title() }}</h1>
+    </div>
+
+    <div class="row" block-ui="sObjectActions">
+        <div class="col-xs-6 col-sm-6 col-md-6" block-ui="describeSObjects" style="width: 47%; float: left;" >
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        <i class="fa fa-cloud"></i> Local sObjects
+                        <div class="actions pull-right">
+                            <input class="form-control" ng-model="sfdcSObjectsFilter" placeholder="Search" style="font-weight: normal;margin-top: -5px"/>
+                        </div>
+                    </h3>
+                </div>
+                <div class="panel-body" style="height:400px;overflow: auto;padding:0px;">
+                    <table class="table table-striped table-hover table-bordered" style="margin-bottom:0px;">
+                        <thead>
+                            <tr>
+                                <th>Label</th>
+                                <th>Api Name</th>
+                                <th style="text-align: center;">Custom</th>
+                                <th style="text-align: center;">Actions
+                                    <input type="checkbox" id="chkLocalObjSelectAll" name="chkLocalObjSelectAll" ng-click="callObjSelectAll('chkLocalObjSelectAll','chkLocalsObj')" />
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <tr ng-repeat="sObj in sfdcSObjects | filter: { label : sfdcSObjectsFilter}">
+                                <td><strong>{{ sObj.label }}<strong></td>
+                                <td>{{ sObj.name }}</td>
+                                <td style="text-align: center;"><i class="{{ (sObj.custom) ? 'fa fa-check' : '' }}"></i></td>
+                                <td style="text-align: center;">
+                                    <!--<button class="btn btn-xs btn-primary" type="button" ng-click="newSObject(sObj)"><i class="fa fa-plus"></i> Add</button>-->
+                                    <input type="checkbox" id="{{ sObj }}" name="chkLocalsObj" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div style="width: 6%; height:430px; float: left; padding-left: 1%; padding-right: 1%; padding-top: 190px; padding-bottom: 190px; -webkit-flex-wrap: wrap; flex-wrap: wrap; -webkit-align-content: center; align-content: center; text-align: center; vertical-align: middle;">
+            <button class="btn btn-xs btn-primary" type="button" ng-click="newSObjects()" style="margin-bottom: 10%;">&nbsp;&nbsp;>>&nbsp;&nbsp;</button>
+            <br/>
+            <button class="btn btn-xs btn-danger" type="button" ng-click="deleteSObjects()" style="margin-top: 10%;">&nbsp;&nbsp;<<&nbsp;&nbsp;</button>
+        </div>
+        <div class="col-xs-6 col-sm-6 col-md-6" block-ui="loadSObjects" style="width: 47%; float: left;" >
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">
+                        Mobile sObjects
+                        <div class="actions pull-right">
+                            <input class="form-control" ng-model="sObjectsFilter" placeholder="Search" style="font-weight: normal;margin-top: -5px"></input>
+                        </div>
+                    </h3>
+                </div>
+                <div class="panel-body"  style="height:400px;overflow: auto;padding:0px;">
+                    <table class="table table-striped table-hover table-bordered" ng-if="sObjects.length > 0" style="margin-bottom:0px;">
+                        <thead>
+                            <tr>
+                                <th>Label</th>
+                                <th>Api Name</th>
+                                <th style="text-align: center;">Custom</th>
+                                <th style="text-align: center;width: 80px;">Actions
+                                    <input type="checkbox" id="chkMobileObjSelectAll" name="chkMobileObjSelectAll" ng-click="callObjSelectAll('chkMobileObjSelectAll','chkMobilesObj')" />
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <tr ng-repeat="sObj in sObjects | filter: { label : sObjectsFilter}">
+                                <td><strong>{{ sObj.label }}<strong></td>
+                                <td>{{ sObj.name }}</td>
+                                <td style="text-align: center;"><i class="{{ (sObj.custom) ? 'fa fa-check' : '' }}"></td>
+                                <td style="text-align: right;">
+                                    <button class="btn btn-xs btn-primary" ng-click="syncRefSObjects(sObj)" ng-if="lookupSObjects(sObj).length > 0" type="button"><i class="pficon-refresh"></i></button>
+                                    <!--<button class="btn btn-xs btn-danger" type="button" ng-click="deleteSObject(sObj)"><i class="pficon-delete"></i> Delete</button>-->
+                                    <input type="checkbox" id="{{ sObj }}" name="chkMobilesObj" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="blank-slate-pf" ng-if="sObjects.length === 0" style="margin-bottom: 0px;height: 100%">
+                        <div class="blank-slate-pf-icon">
+                            <span class="pficon pficon-add-circle-o"></span>
+                        </div>
+                        <h1>No sObject added.</h1>
+                        <p>Add <strong>Salesforce sObject</strong> from left panel.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

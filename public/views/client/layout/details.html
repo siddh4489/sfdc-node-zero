@@ -1,0 +1,26 @@
+<div class="page-header page-header-bleed-right">
+    <div class="actions pull-right">
+        <a href ng-click="back.go()" ng-if="back.allow"><span class="fa fa-chevron-circle-left"></span> {{'Back to List' | translate}}</a>&nbsp;&nbsp;
+    </div>
+    <h1 translate>{{ $root.title() }}</h1>
+</div>
+
+<div class="edit-layout" block-ui="layoutBlock" style="min-height: 300px;">
+    <div class="form-actions-top">
+        <div style="font-size: 15px" class="pull-left"><b>{{dataModel.Name}}</b></div>
+        <button class="btn btn-primary" type="button" ng-if="dispayEditBtn" ng-click="edit()"><i class="fa fa-pencil"></i> {{'Edit' | translate}}</button>
+        <button class="btn btn-default" type="button" ng-click="back.go()" translate>Cancel</button>
+    </div>
+    <sobject-layout-section ng-repeat="section in metadata.layoutSections" section="section" section-index="$index" model="dataModel" layout-block-ui-instance="blockUI.layoutBlock" type="detail" base-ctrl="baseCtrl"></sobject-layout-section>
+    <div ng-if="metadata.relatedLists && (metadata.relatedLists | filter: {dispaySection :'2'}).length > 0" class="edit-layout">
+        <div layout-related-list model="relatedList" datamodel="dataModel" index="$index" parent-s-object="stateParamData.record"  ng-repeat="relatedList in metadata.relatedLists | filter: {dispaySection :'2'}"></div>
+    </div>
+    <div class="form-actions-bottom">
+        <button class="btn btn-primary" type="button" ng-if="dispayEditBtn" ng-click="edit()"><i class="fa fa-pencil"></i> {{'Edit' | translate}}</button>
+        <button class="btn btn-default" type="button" ng-click="back.go()" translate>Cancel</button>
+    </div>
+</div>
+
+<div ng-if="metadata.relatedLists && (metadata.relatedLists | filter: {dispaySection :'1'}).length > 0" class="edit-layout">
+    <div layout-related-list model="relatedList" datamodel="dataModel" index="$index" parent-s-object="stateParamData.record" ng-repeat="relatedList in metadata.relatedLists | filter: {dispaySection :'1'}"></div>
+</div>

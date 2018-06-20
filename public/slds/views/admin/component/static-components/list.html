@@ -1,0 +1,70 @@
+<div class="slds-page-header slds-page-header--object-home">
+    <div class="slds-grid">
+        <div class="slds-col slds-has-flexi-truncate">
+            <div class="slds-media slds-no-space slds-grow">
+                <div class="slds-media__figure">
+                    <span class="slds-icon_container slds-icon-standard-user">
+                        <svg class="slds-icon slds-p-around--xx-small" aria-hidden="true">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/slds221/assets/icons/utility-sprite/svg/symbols.svg#apps"></use>
+                        </svg>
+                    </span>
+                </div>
+                <div class="slds-media__body">
+                    <p class="slds-text-title--caps slds-line-height--reset">Components</p>
+                    <h1 class="slds-page-header__title slds-m-right--small slds-align-middle slds-truncate" title="All tabs">{{ $root.title() }}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="slds-col slds-no-flex slds-grid slds-align-top">
+        </div>
+    </div>
+</div>
+<div class="slds-grid slds-scrollable--y" block-ui="loadComponents" style="height: calc(100vh - 237px);">
+    <table fixed-header class="slds-table slds-table--compaq slds-table--bordered slds-table--cell-buffer slds-table--striped" style="height: calc(100vh - 273px);">
+        <thead>
+            <tr class="slds-text-title--caps">
+                <th scope="col"><div class="slds-truncate" title="Component Title">Component Title</div></th>
+                <th scope="col"><div class="slds-truncate" title="Description">Description</div></th>
+                <th scope="col"><div class="slds-truncate" title="SObject">SObject</div></th>
+                <th scope="col"><div class="slds-truncate" title="Name">Name</div></th>
+                <th scope="col" style="text-align: center;width: 50px;"><div class="slds-truncate" title="Active">Active</div></th>
+                <th scope="col" style="text-align: center;width: 150px;"><div class="slds-truncate" title="Actions">Actions</div></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="component in components | filter: componentsFilter | orderBy:'name'" ng-dblclick="edit(component)">
+                <td data-label="Component Title">
+                    <div class="slds-truncate" title="{{ component.title }}">{{ component.title }}</div>
+                </td>
+                <td data-label="Description">
+                    <div class="slds-truncate" title="{{ component.desc }}">{{ component.desc }}</div>
+                </td>
+                <td data-label="SObject">
+                    <div class="slds-truncate" title="{{ component.parent.label }}">{{ component.parent.label }}</div>
+                </td>
+                <td data-label="Name">
+                    <div class="slds-truncate" title="{{ component.name }}">{{ component.name }}</div>
+                </td>
+                <td data-label="Active" style="text-align: center;">
+                    <div class="slds-truncate">
+                        <svg class="slds-button__icon slds-button__icon--left" ng-if="component.active" aria-hidden="true">
+                            <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/slds221/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                        </svg>
+                    </div>
+                </td>
+                <td data-label="Actions" style="text-align: center;">
+                    <div class="slds-truncate slds-align--absolute-center" >
+                        <div class="slds-button-group" role="group">
+                            <button class="slds-button slds-button--icon-border-filled slds-button--icon-x-small" ng-click="edit(component)">
+                                <svg class="slds-button__icon" aria-hidden="true">
+                                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="/slds221/assets/icons/utility-sprite/svg/symbols.svg#edit"></use>
+                                </svg>
+                                <span class="slds-assistive-text">Edit</span>
+                            </button>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

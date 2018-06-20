@@ -1,0 +1,8 @@
+<div ng-if="field.rendered" ng-class="{'ng-invalid-val' : (isFieldRequired(field) && (!field.value || field.value === undefined || field.value === ''))}">
+        <div    pf-datepicker 
+                date="field.value"
+                id="{{ field.SObjectField.name + index}}" 
+                options="{autoclose: true, todayBtn: 'linked', todayHighlight: true}"
+                ng-if="!field.readonly"></div>
+        <span ng-if="field.readonly" ng-bind="$root.formateDateAndDateTime(field.value,$root.user().TimeZone.code, $root.user().Locale.name, $root.user().Locale.dateFormat) | date: 'mediumDate'"></span>
+</div>
